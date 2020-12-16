@@ -5,6 +5,7 @@
       color="primary"
       dark
       class="justify-space-around"
+      dense
     >
       <span>VLAN 单臂路由</span>
 
