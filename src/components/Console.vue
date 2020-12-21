@@ -35,7 +35,7 @@ export default {
     return {
       command: '',
       output: '',
-      terminals: ['S1', 'S2', 'S3', 'R1', 'T'],
+      terminals: ['S1', 'S2', 'S3', 'R', 'T'],
       currentPrompt: 'T',
       status: 'Connecting',
       colorStatus: 'warning',
@@ -43,9 +43,24 @@ export default {
   },
 
   methods: {
+    login(){
+      this.axios.get("/login/" + this.currentPrompt).then(
+        res => {
+          this.output = res.data
+          this.$nextTick(() => {
+            let t = document.getElementById("text")
+            t.scrollTop = t.scrollHeight
+          })
+          this.changeStatus("Connected")
+        }
+      ).catch(() =>{
+        this.changeStatus("Error")
+      })
+    },
+
     sendCommand() {
-      this.changeStatus("pocessing")
-      this.axios.post("/command/T", {
+      this.changeStatus("Pocessing")
+      this.axios.post("/command/" + this.currentPrompt, {
         cmd: this.command
       }).then(res => {
         this.output += res.data
@@ -55,44 +70,33 @@ export default {
           this.changeStatus("ok")
         })
       }).catch(() =>{
-        this.changeStatus("error")
+        this.changeStatus("Error")
       })
       this.command = ''
 
 
     },
     changePrompt(prompt) {
+      this.changeStatus('Connecting')
       this.currentPrompt = prompt
+      this.output = ''
+      this.login()
     },
     changeStatus(status) {
       this.status = status
 
       if (this.status === "Connected" || this.status === "ok") {
         this.colorStatus = "success"
-      } else if (this.status === "Connecting" || this.status === "pocessing"){
+      } else if (this.status === "Connecting" || this.status === "Pocessing"){
         this.colorStatus = "warning"
-      }else if (this.status === "error"){
+      }else if (this.status === "Error"){
         this.colorStatus = "error"
       }
     }
 
   },
-  beforeCreate() {
-    this.axios.get("/login/T", {
-      params: {
-        user: "hadoop",
-        passwd: "0",
-      }
-    }).then(
-        res => {
-          this.output = res.data
-          this.$nextTick(() => {
-            let t = document.getElementById("text")
-            t.scrollTop = t.scrollHeight
-          })
-          this.changeStatus("Connected")
-        }
-    )
+  beforeMount() {
+    this.login()
   }
 }
 </script>
