@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "eslint-config-prettier": "^7.1.0",
+    "prettier": "^2.2.1",
     "vue": "^2.6.11",
     "vuetify": "^2.2.11"
   },
@@ -18,8 +20,12 @@
     "@vue/cli-service": "~4.5.0",
     "axios": "^0.18.0",
     "babel-eslint": "^10.1.0",
-    "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^6.2.2",
+    "eslint": "^7.16.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-vue": "^7.3.0",
     "sass": "^1.19.0",
     "sass-loader": "^8.0.0",
     "vue-cli-plugin-axios": "~0.0.4",
@@ -40,8 +46,11 @@
       "parser": "babel-eslint"
     },
     "rules": {
-      "no-unused-vars":"off"
-    }
+      "no-unused-vars": "off"
+    },
+    "plugins": [
+      "prettier"
+    ]
   },
   "browserslist": [
     "> 1%",

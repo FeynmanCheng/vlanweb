@@ -1,27 +1,20 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-      class="justify-space-around"
-      dense
-    >
+    <v-app-bar app color="primary" dark class="justify-space-around" dense>
       <span>VLAN 单臂路由</span>
-
     </v-app-bar>
 
     <v-main>
-      <Console/>
+      <Console />
     </v-main>
   </v-app>
 </template>
 
 <script>
-import Console from './components/Console';
+import Console from "./components/Console";
 
 export default {
-  name: 'App',
+  name: "App",
 
   components: {
     Console,
