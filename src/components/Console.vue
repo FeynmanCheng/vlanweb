@@ -29,20 +29,11 @@
         >
         </v-textarea>
       </v-col>
-      <v-row justify="space-between">
-        <div  v-for="t in terminals"
-          :key="t">
-          <v-btn
-            color="primary"
-            @click="changePrompt(t)"
-            >Telnet {{ t }}</v-btn
-          >
-          <v-btn
-            color="secondary"
-            @click="config(t)"
-            >Config {{ t }}</v-btn
-          >
-        </div>
+      <v-row justify="space-between" dense>
+        <span v-for="t in terminals" :key="t">
+          <v-btn color="primary" @click="changePrompt(t)">Telnet {{ t }}</v-btn>
+          <v-btn color="secondary" @click="config(t)">Config {{ t }}</v-btn>
+        </span>
       </v-row>
     </v-row>
   </v-container>
@@ -50,94 +41,94 @@
 
 <script>
 export default {
-  name: "HelloWorld",
+  name: 'HelloWorld',
 
   data() {
     return {
-      command: "",
-      output: "",
-      terminals: ["S1", "S2", "S3", "R", "T"],
-      currentPrompt: "T",
-      status: "Connecting",
-      colorStatus: "warning",
-    };
+      command: '',
+      output: '',
+      terminals: ['S1', 'S2', 'S3', 'R', 'T'],
+      currentPrompt: 'T',
+      status: 'Connecting',
+      colorStatus: 'warning',
+    }
   },
 
   methods: {
     login() {
       this.axios
-        .get("/login/" + this.currentPrompt)
+        .get('/login/' + this.currentPrompt)
         .then((res) => {
-          this.output = res.data;
+          this.output = res.data
           this.$nextTick(() => {
-            let t = document.getElementById("text");
-            t.scrollTop = t.scrollHeight;
-          });
-          this.changeStatus("Connected");
+            let t = document.getElementById('text')
+            t.scrollTop = t.scrollHeight
+          })
+          this.changeStatus('Connected')
         })
         .catch(() => {
-          this.changeStatus("Error");
-        });
+          this.changeStatus('Error')
+        })
     },
 
     sendCommand() {
-      this.changeStatus("Processing");
+      this.changeStatus('Processing')
       this.axios
-        .post("/command/" + this.currentPrompt, {
+        .post('/command/' + this.currentPrompt, {
           cmd: this.command,
         })
         .then((res) => {
-          this.output += res.data;
+          this.output += res.data
           this.$nextTick(() => {
-            let t = document.getElementById("text");
-            t.scrollTop = t.scrollHeight;
-            this.changeStatus("ok");
-          });
+            let t = document.getElementById('text')
+            t.scrollTop = t.scrollHeight
+            this.changeStatus('ok')
+          })
         })
         .catch(() => {
-          this.changeStatus("Error");
-        });
-      this.command = "";
+          this.changeStatus('Error')
+        })
+      this.command = ''
     },
     changePrompt(prompt) {
-      this.changeStatus("Connecting");
-      this.currentPrompt = prompt;
-      this.output = "";
-      this.login();
+      this.changeStatus('Connecting')
+      this.currentPrompt = prompt
+      this.output = ''
+      this.login()
     },
 
     changeStatus(status) {
-      this.status = status;
+      this.status = status
 
-      if (this.status === "Connected" || this.status === "ok") {
-        this.colorStatus = "success";
-      } else if (this.status === "Connecting" || this.status === "Processing") {
-        this.colorStatus = "warning";
-      } else if (this.status === "Error") {
-        this.colorStatus = "error";
+      if (this.status === 'Connected' || this.status === 'ok') {
+        this.colorStatus = 'success'
+      } else if (this.status === 'Connecting' || this.status === 'Processing') {
+        this.colorStatus = 'warning'
+      } else if (this.status === 'Error') {
+        this.colorStatus = 'error'
       }
     },
     config(hostname) {
-      this.changeStatus("Processing");
+      this.changeStatus('Processing')
 
-      this.axios.get("/config/" + hostname).then((res) => {
+      this.axios.get('/config/' + hostname).then((res) => {
         const data = res.data.data
-        this.output += data;
+        this.output += data
 
-        if (data.indexOf("Failed") >= 0) {
-          this.changeStatus("Error");
+        if (data.indexOf('Failed') >= 0) {
+          this.changeStatus('Error')
         } else {
           this.$nextTick(() => {
-            let t = document.getElementById("text");
-            t.scrollTop = t.scrollHeight;
-            this.changeStatus("ok");
-          });
+            let t = document.getElementById('text')
+            t.scrollTop = t.scrollHeight
+            this.changeStatus('ok')
+          })
         }
-      });
+      })
     },
   },
   beforeMount() {
-    this.login();
+    this.login()
   },
-};
+}
 </script>

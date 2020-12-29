@@ -5,13 +5,13 @@
     "node": true
   },
   "extends": [
-    "plugin:vue/essential", 
+    "plugin:vue/essential",
     "prettier",
-    "prettier/vue"
+    "prettier/vue",
+    "plugin:prettier/recommended"
   ],
   "plugins": [
     "vue",
-    "prettier"
-  ],
+    "prettier"],
   "rules": {}
 }

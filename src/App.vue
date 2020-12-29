@@ -11,17 +11,17 @@
 </template>
 
 <script>
-import Console from "./components/Console";
+import Console from './components/Console'
 
 export default {
-  name: "App",
+  name: 'App',
 
   components: {
     Console,
-  },
+  },s
 
   data: () => ({
     //
   }),
-};
+}
 </script>
